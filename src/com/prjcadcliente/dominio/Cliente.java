@@ -6,12 +6,12 @@ public class Cliente {
 	private String nome;
 	private String email;
 	private String telefone;
-	private String idade;
+	private int idade;
 	
 	public Cliente() {
 	}
 
-	public Cliente(int id, String nome, String email, String telefone, String idade) {
+	public Cliente(int id, String nome, String email, String telefone, int idade) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -51,11 +51,11 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public String getIdade() {
+	public int getIdade() {
 		return idade;
 	}
 
-	public void setIdade(String idade) {
+	public void setIdade(int idade) {
 		this.idade = idade;
 	}
 	

@@ -30,43 +30,7 @@ public class CRUDCliente {
 	
 	public String cadastrar(Cliente cliente) {
 		
-		String msg = ""; 
-		//Criação dos objetos para a conexão com o banco de dados 
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3307/clientedb","root","");
-			
-			String consulta = "INSERT INTO tbclient(nome,email,telefone,idade)values(?,?,?,?)";
-			
-			pst = con.prepareStatement(consulta);
-			
-			pst.setString(1, cliente.getNome());
-			pst.setString(2, cliente.getEmail());
-			pst.setString(3, cliente.getTelefone());
-			pst.setInt(4, cliente.getIdade());
-		 
-			int r = pst.executeUpdate();
-			
-			
-			if(r > 0)
-				msg = "Cadastro realizado com sucesso";
-			else
-				msg = "não foi possivel cadastrar";
-				
-		}
-	    catch(SQLException ex) {
-		     msg = "Erro ao tentar cadastrar:"+ex.getMessage();
-		     
-	    }
-		catch(Exception e) {
-			msg = "Erro Inesperado:"+e.getMessage();
-			
-		}
-		finally {
-			try{con.close();}catch(Exception e) {e.printStackTrace();}
-		}	
-		return msg;
-		
+		pst.setString(3, cliente.getTelefone());
 		
 		}
 
@@ -112,7 +76,42 @@ public class CRUDCliente {
         
 	}
 	public String deletar(Cliente cliente) {
-        return null;
+		String msg = ""; 
+		//Criação dos objetos para a conexão com o banco de dados 
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3307/clientedb","root","");
+			
+			String consulta = "DELETE FROM tbclient SET nome=?,email=?,telefone=?,idade=? WHERE id=(?,?,?,?)";
+			
+			pst = con.prepareStatement(consulta);
+			
+			pst.setString(1, cliente.getNome());
+			pst.setString(2, cliente.getEmail());
+			pst.setString(3, cliente.getTelefone());
+			pst.setInt(4, cliente.getIdade());
+			pst.setInt(5, cliente.getId());
+			int r = pst.executeUpdate();
+			
+			
+			if(r > 0)
+				msg = "Deletado  com sucesso";
+			else
+				msg = "não foi possivel  Deletar";
+				
+		}
+	    catch(SQLException ex) {
+		     msg = "Erro ao tentar Deletar:"+ex.getMessage();
+		     
+	    }
+		catch(Exception e) {
+			msg = "Erro Inesperado:"+e.getMessage();
+			
+		}
+		finally {
+			try{con.close();}catch(Exception e) {e.printStackTrace();}
+		}	
+		return msg;
 
 	}
 	

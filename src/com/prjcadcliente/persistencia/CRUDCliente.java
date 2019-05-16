@@ -164,8 +164,47 @@ public class CRUDCliente {
 		
 		
 	
-	public Cliente PesquisarPorID(int id){
-		return null;
+	public Cliente PesquisarPorid(int id){
+        Cliente cliente = new Cliente();
+		
+		try { 
+		Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+		
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clientedb","root","");
+		
+		
+		String consulta ="Select * from tbcliente where nome=?";
+		
+		pst = con.prepareStatement(consulta);
+		
+		pst.setInt(1, id);
+		
+		
+		rs = pst.executeQuery();
+		
+		
+	   
+		if(rs.next()) 	
+		    cliente.setId(rs.getInt(0));
+		cliente.setNome(rs.getString(1));
+		cliente.setNome(rs.getString(2));
+		cliente.setNome(rs.getString(3));
+		 cliente.setIdade(rs.getInt(4));
+					
+		
+	}
+		
+		catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {con.close();} catch(Exception e) {e.printStackTrace();} 
+		}
+	
+		return cliente;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.prjcadcliente.dominio.Cliente;
@@ -29,8 +30,9 @@ public class CRUDCliente {
 	private PreparedStatement pst = null;
 	
 	public String cadastrar(Cliente cliente) {
+		return null;
 		
-		pst.setString(3, cliente.getTelefone());
+		
 		
 		}
 
@@ -116,8 +118,52 @@ public class CRUDCliente {
 	}
 	
 	public List<Cliente> PesquisarPorNome(String nome){
-		return null;
+		List<Cliente> lista = new ArrayList<Cliente>();
+		
+		try { 
+		Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+		
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clientedb","root","");
+		
+		
+		String consulta ="Select * from tbcliente where nome=?";
+		
+		pst = con.prepareStatement(consulta);
+		
+		pst.setString(1, nome );
+		
+		
+		rs = pst.executeQuery();
+		
+		
+		while(rs.next()) {
+			lista.add(new Cliente(
+					rs.getInt(0),
+					rs.getString(1),
+					rs.getString(2),
+					rs.getString(3),
+					rs.getInt(4)
+					));
+		}
 	}
+		
+		catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {con.close();} catch(Exception e) {e.printStackTrace();} 
+		}
+		
+		
+		return lista;
+		
+	}
+		
+		
+	
 	public Cliente PesquisarPorID(int id){
 		return null;
 	}
